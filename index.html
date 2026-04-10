@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="calculator-container">
+        <div class="calculator">
+            <h1>Scientific Calculator</h1>
+
+            <div class="auth-links" style="text-align:right; margin-bottom:5px;">
+                <div style="position:relative; display:inline-block;">
+                    <button id="settingsLink" class="menu-btn" style="display:none;">Settings ▾</button>
+                    <div id="settingsMenu"
+                        style="display:none; position:absolute; right:0; background:#fff; border:1px solid #ccc; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+                        <button id="menuLogout" class="menu-btn" style="width:100%; background:#e74c3c;">Log
+                            Out</button>
+                        <button id="menuDelete" class="menu-btn" style="width:100%; background:#c0392b;">Delete
+                            Account</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Menu -->
+            <div class="menu-tabs">
+                <button class="menu-btn active" onclick="calculator.switchCategory('mathematics')">📐
+                    Mathematics</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('algebra')">📊 Algebra</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('mass')">⚖️ Mass</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('temperature')">🌡️ Temperature</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('length')">📏 Length</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('power')">⚡ Power</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('data')">💾 Data</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('speed')">🚗 Speed</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('currency')">💱 Currency</button>
+                <button class="menu-btn" onclick="calculator.switchCategory('time')">⏱️ Time</button>
+            </div>
+
+            <div class="display-container">
+                <input type="text" id="display" class="display" readonly>
+                <input type="text" id="history" class="history" readonly>
+            </div>
+
+            <div class="button-grid" id="buttonGrid">
+                <!-- Buttons will be generated dynamically by JavaScript -->
+            </div>
+
+            <div class="info" id="categoryInfo">
+                <p>Mathematics • Basic operations, trigonometry, and logarithms</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const settings = document.getElementById('settingsLink');
+            const settingsMenu = document.getElementById('settingsMenu');
+            const logoutBtn = document.getElementById('menuLogout');
+            const deleteBtn = document.getElementById('menuDelete');
+            // show settings button if logged in
+            if (localStorage.getItem('currentUser')) {
+                settings.style.display = '';
+            }
+            settings.onclick = () => {
+                settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
+            };
+            logoutBtn.onclick = () => {
+                localStorage.removeItem('currentUser');
+                alert('Logged out');
+                settings.style.display = 'none';
+                settingsMenu.style.display = 'none';
+            };
+            deleteBtn.onclick = () => {
+                const u = localStorage.getItem('currentUser');
+                if (u && confirm('Delete account ' + u + '?')) {
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    delete users[u];
+                    localStorage.setItem('users', JSON.stringify(users));
+                    localStorage.removeItem('currentUser');
+                    alert('Account deleted');
+                    settings.style.display = 'none';
+                    settingsMenu.style.display = 'none';
+                }
+            };
+            // click outside to close menu
+            document.addEventListener('click', e => {
+                if (!settings.contains(e.target) && !settingsMenu.contains(e.target)) {
+                    settingsMenu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <footer>
+        <p>Visit us at <a href="index.html">Calculator home</a></p>
+    </footer>
+</body>
+
+</html>

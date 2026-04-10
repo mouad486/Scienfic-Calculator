@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScienficCalculator.com - Online Scientific Calculator</title>
+    <link rel="stylesheet" href="landing.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">ScienficCalculator.com</h1>
+            <div class="auth-buttons">
+                <a href="signup.html" class="nav-btn">Sign Up</a>
+                <a href="signin.html" class="nav-btn">Sign In</a>
+                <button id="logoutBtn" class="nav-btn" style="display:none">Log Out</button>
+                <a id="settingsLink" href="settings.html" class="nav-btn" style="display:none">Settings</a>
+            </div>
+            <a href="index.html" class="nav-btn">Open Calculator</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Welcome to ScienficCalculator.com</h2>
+            <p>A powerful, free online scientific calculator for all your mathematical needs</p>
+            <a href="index.html" class="cta-btn">Launch Calculator</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <h3>Powerful Features</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔢</div>
+                <h4>Basic Operations</h4>
+                <p>Addition, subtraction, multiplication, and division with precision</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📐</div>
+                <h4>Trigonometry</h4>
+                <p>Sin, Cos, Tan functions with degree/radian toggle</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h4>Advanced Math</h4>
+                <p>Logarithms, powers, square roots, and factorial calculations</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⌨️</div>
+                <h4>Keyboard Support</h4>
+                <p>Full keyboard support for fast and efficient calculations</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-preview">
+        <h3>Quick Access</h3>
+        <p>Ready to calculate? Open the calculator below:</p>
+        <a href="index.html" class="primary-btn">Open Full Calculator</a>
+    </section>
+
+    <script>
+        // simple logout handler for landing page
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            const settingsLink = document.getElementById('settingsLink');
+            logoutBtn.onclick = () => {
+                localStorage.removeItem('currentUser');
+                alert('Logged out');
+                logoutBtn.style.display = 'none';
+                settingsLink.style.display = 'none';
+            };
+            // show logout and settings if user already signed in
+            if (localStorage.getItem('currentUser')) {
+                logoutBtn.style.display = '';
+                settingsLink.style.display = '';
+            }
+        });
+    </script>
+    <footer>
+        <p>&copy; 2026 ScienficCalculator.com. All rights reserved. | Free Online Scientific Calculator</p>
+        <p>Visit us at <a href="index.html">Calculator home</a></p>
+    </footer>
+</body>
+
+</html>

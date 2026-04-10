@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - ScienficCalculator</title>
+    <link rel="stylesheet" href="landing.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 80px auto;
+            background: #ffffffee;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        label {
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(135deg, #5a6fd4 0%, #6f3ba8 100%);
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Sign In</h2>
+        <form id="signinForm">
+            <label for="user">Username</label>
+            <input type="text" id="user" required>
+            <label for="pass">Password</label>
+            <input type="password" id="pass" required>
+            <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+            <input type="submit" value="Sign In">
+        </form>
+        <p>New user? <a href="signup.html">Sign up</a></p>
+    </div>
+
+    <script>
+        const users = JSON.parse(localStorage.getItem('users') || '{}');
+        function makeCaptcha(containerId) {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) + 1;
+            const q = document.createElement('div');
+            q.textContent = `What is ${a} + ${b}?`;
+            const ans = document.createElement('input');
+            ans.type = 'number';
+            ans.id = containerId + 'Answer';
+            ans.required = true;
+            document.getElementById(containerId).appendChild(q);
+            document.getElementById(containerId).appendChild(ans);
+            return () => ans.value == a + b;
+        }
+        const signinCheck = makeCaptcha('signinCaptcha');
+        document.getElementById('signinForm').addEventListener('submit', e => {
+            e.preventDefault();
+            if (!signinCheck()) { alert('CAPTCHA failed'); return; }
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if (!users[u]) {
+                alert('Unknown user');
+                return;
+            }
+            if (users[u].password !== p) {
+                alert('Invalid password');
+                return;
+            }
+            localStorage.setItem('currentUser', u);
+            alert('Signed in as ' + u);
+            window.location = 'landing.html';
+        });
+    </script>
+</body>
+
+</html>

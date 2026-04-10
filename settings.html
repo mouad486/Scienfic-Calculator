@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - ScienficCalculator</title>
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .settings-container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: #ffffffee;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .settings-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            transition: background 0.3s;
+        }
+
+        .settings-container button:hover {
+            background: linear-gradient(135deg, #5a6fd4 0%, #6f3ba8 100%);
+        }
+
+        .settings-container a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #667eea;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="settings-container">
+        <h2>Account Settings</h2>
+        <button id="privacyBtn">Privacy Policy</button>
+        <button id="deleteBtn" style="background:#e74c3c;">Delete Account</button>
+        <button id="logoutBtn">Log Out</button>
+        <a href="landing.html">Back to Home</a>
+    </div>
+
+    <script>
+        const current = localStorage.getItem('currentUser');
+        if (!current) {
+            alert('You must be signed in to view settings.');
+            window.location = 'signin.html';
+        }
+        document.getElementById('privacyBtn').onclick = () => {
+            alert('Privacy policy placeholder.');
+        };
+        document.getElementById('logoutBtn').onclick = () => {
+            localStorage.removeItem('currentUser');
+            alert('Logged out');
+            window.location = 'landing.html';
+        };
+        document.getElementById('deleteBtn').onclick = () => {
+            if (confirm('Delete account forever?')) {
+                const users = JSON.parse(localStorage.getItem('users') || '{}');
+                delete users[current];
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.removeItem('currentUser');
+                alert('Account deleted');
+                window.location = 'landing.html';
+            }
+        };
+    </script>
+</body>
+
+</html>
